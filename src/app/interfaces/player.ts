@@ -15,3 +15,28 @@ export interface Player {
   avgSteals: number;
   avgAssists: number;
 }
+
+export interface PlayerDetail {
+  id: number;
+  playerId: number;
+  curiosities: string;
+  birthDate: string;
+  retired: boolean;
+  college: string;
+  highSchool: string;
+  totalPoints: number;
+  totalRebounds: number;
+  totalAssists: number;
+  totalSteals: number;
+  totalBlocks: number;
+  totalThreePointers: number;
+  playoffPoints: number;
+  playoffRebounds: number;
+  playoffAssists: number;
+  mvpTitles: number;
+  defensivePlayerAwards: number;
+  allStarSelections: number;
+  olympicMedals: string | null;
+  notableInjuries: string | null;
+  retiredJerseyTeams: string | null;
+}

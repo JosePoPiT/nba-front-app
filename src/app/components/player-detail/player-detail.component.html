@@ -1,1 +1,55 @@
-<p>player-detail works!</p>
+<div *ngIf="hasError; else content" class="error-container">
+  <p class="error-message">{{ errorMessage }}</p>
+</div>
+<ng-template #content>
+  <div class="player-detail-container">
+    <h2>{{ player.name }}</h2>
+    <img
+      [src]="'data:image/png;base64,' + player.image"
+      alt="{{ player.name }}"
+      class="player-image"
+    />
+    <div class="player-info" *ngIf="detail() as detail">
+      <p><strong>Curiosidades:</strong> {{ detail.curiosities }}</p>
+      <p>
+        <strong>Fecha de Nacimiento:</strong>
+        {{ detail.birthDate | date : "longDate" }}
+      </p>
+      <p><strong>Universidad:</strong> {{ detail.college }}</p>
+      <p><strong>High School:</strong> {{ detail.highSchool }}</p>
+      <p><strong>Puntos Totales:</strong> {{ detail.totalPoints }}</p>
+      <p><strong>Rebotes Totales:</strong> {{ detail.totalRebounds }}</p>
+      <p><strong>Asistencias Totales:</strong> {{ detail.totalAssists }}</p>
+      <p><strong>Robos Totales:</strong> {{ detail.totalSteals }}</p>
+      <p><strong>Bloqueos Totales:</strong> {{ detail.totalBlocks }}</p>
+      <p><strong>Triples:</strong> {{ detail.totalThreePointers }}</p>
+      <p><strong>Puntos en Playoffs:</strong> {{ detail.playoffPoints }}</p>
+      <p><strong>Rebotes en Playoffs:</strong> {{ detail.playoffRebounds }}</p>
+      <p>
+        <strong>Asistencias en Playoffs:</strong> {{ detail.playoffAssists }}
+      </p>
+      <p><strong>MVPs:</strong> {{ detail.mvpTitles }}</p>
+      <p>
+        <strong>Premios al Jugador Defensivo:</strong>
+        {{ detail.defensivePlayerAwards }}
+      </p>
+      <p>
+        <strong>Selecciones All-Star:</strong> {{ detail.allStarSelections }}
+      </p>
+      <p>
+        <strong>Medallas Olímpicas:</strong> {{ detail.olympicMedals || "N/A" }}
+      </p>
+      <p>
+        <strong>Lesiones Notables:</strong>
+        {{ detail.notableInjuries || "Ninguna" }}
+      </p>
+      <p>
+        <strong>Camisetas Retiradas:</strong>
+        {{ detail.retiredJerseyTeams || "Ninguna" }}
+      </p>
+    </div>
+    <button mat-button class="back-button" [routerLink]="['/players']">
+      Regresar al Listado
+    </button>
+  </div>
+</ng-template>

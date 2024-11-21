@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -6,18 +6,29 @@ import { MatCardModule } from '@angular/material/card';
 import { Team } from '../../interfaces/team';
 import { TeamService } from '../../services/team-service/team.service';
 import { HttpClientModule } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-team-list',
   standalone: true,
-  imports: [MatCardModule, NgFor, MatPaginatorModule, RouterLink, CommonModule, HttpClientModule],
+  imports: [
+    MatCardModule,
+    NgFor,
+    MatPaginatorModule,
+    RouterLink,
+    CommonModule,
+    HttpClientModule,
+  ],
   templateUrl: './team-list.component.html',
   styleUrl: './team-list.component.css',
-  providers: [TeamService]
+  providers: [TeamService],
 })
-export class TeamListComponent implements OnInit {
+export class TeamListComponent implements OnInit, OnDestroy {
   teams: Team[] = [];
   displayedTeams: Team[] = [];
+  hasError: boolean = false;
+  errorMessage: string = '';
+  subs = new Subscription();
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(private teamService: TeamService, private router: Router) {}
@@ -26,11 +37,24 @@ export class TeamListComponent implements OnInit {
     this.getTeams();
   }
 
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
   getTeams() {
-    this.teamService.getTeams().subscribe((teams: Team[]) => {
-      this.teams = teams;
-      this.displayedTeams = teams.slice(0, 10);
+    const obs$ = this.teamService.getTeams().subscribe({
+      next: (teams: Team[]) => {
+        this.teams = teams;
+        this.displayedTeams = teams.slice(0, 10);
+      },
+      error: (error) => {
+        this.hasError = true;
+        console.error(error);
+        this.errorMessage =
+          'No se pudo cargar la lista de equipos. Intente nuevamente más tarde.';
+      },
     });
+    this.subs.add(obs$);
   }
 
   onPageChange(event: any) {

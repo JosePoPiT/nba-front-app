@@ -25,7 +25,8 @@ import { Player } from '../../interfaces/player';
 export class PlayerListComponent implements OnInit {
   players: Player[] = [];
   displayedPlayers: Player[] = [];
-
+  hasError: boolean = false;
+  errorMessage: string = '';
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   constructor(private playerService: PlayerService) {}
@@ -35,10 +36,19 @@ export class PlayerListComponent implements OnInit {
   }
 
   getPlayers() {
-    this.playerService.getPlayers().subscribe((players: Player[]) => {
-      this.players = players;
-      this.displayedPlayers = players.slice(0, 10);
-    });
+    this.playerService.getPlayers().subscribe({
+      next: (players: Player[]) => {
+        this.players = players;
+        this.displayedPlayers = players.slice(0, 10);
+        this.hasError = false;
+      },
+      error: (error) => {
+        console.error(error);
+        this.hasError = true;
+        this.errorMessage = 'No se pudo cargar la lista de jugadores. Intente nuevamente más tarde.';
+      },
+    }
+    );
   }
 
   onPageChange(event: any) {

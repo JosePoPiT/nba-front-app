@@ -1,16 +1,30 @@
-<div class="team-detail-container" [ngStyle]="{ 'background-color': teamColor}">
-  <h2>{{ team?.name }}</h2>
-  <img [src]="'data:image/png;base64,' + team?.logo" alt="{{ team?.name }} logo" class="team-logo-large" />
-  <p>Ciudad: {{ team?.city }}</p>
-  <p>Estadio: {{ team?.stadium }}</p>
-  <p>Capacidad: {{ team?.capacity }}</p>
-  <p>Año de Fundación: {{ team?.foundedYear }}</p>
-  <p>Entrenador Principal: {{ team?.headCoach }}</p>
-  <p>Dueño: {{ team?.owner }}</p>
-  <p>Campeonatos de la NBA: {{ team?.nbaChampionships }}</p>
-  <p>Apariciones en Playoffs: {{ team?.playoffAppearances }}</p>
-  <p>Títulos de Conferencia: {{ team?.conferenceTitles }}</p>
-  <p>Jugadores Notables: {{ team?.notablePlayers }}</p>
-
-  <button mat-button class="back-button" [routerLink]="['/teams']">Regresar al Listado de Equipos</button>
+<div *ngIf="hasError; else content" class="error-container">
+  <p class="error-message">{{ errorMessage }}</p>
 </div>
+<ng-template #content>
+  <div
+    class="team-detail-container"
+    [ngStyle]="{ 'background-color': teamColor }"
+  >
+    <h2>{{ team?.name }}</h2>
+    <img
+      [src]="'data:image/png;base64,' + team?.logo"
+      alt="{{ team?.name }} logo"
+      class="team-logo-large"
+    />
+    <p>Ciudad: {{ team?.city }}</p>
+    <p>Estadio: {{ team?.stadium }}</p>
+    <p>Capacidad: {{ team?.capacity }}</p>
+    <p>Año de Fundación: {{ team?.foundedYear }}</p>
+    <p>Entrenador Principal: {{ team?.headCoach }}</p>
+    <p>Dueño: {{ team?.owner }}</p>
+    <p>Campeonatos de la NBA: {{ team?.nbaChampionships }}</p>
+    <p>Apariciones en Playoffs: {{ team?.playoffAppearances }}</p>
+    <p>Títulos de Conferencia: {{ team?.conferenceTitles }}</p>
+    <p>Jugadores Notables: {{ team?.notablePlayers }}</p>
+
+    <button mat-button class="back-button" [routerLink]="['/teams']">
+      Regresar al Listado de Equipos
+    </button>
+  </div>
+</ng-template>

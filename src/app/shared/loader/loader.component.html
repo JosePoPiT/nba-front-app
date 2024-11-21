@@ -1,0 +1,6 @@
+<div class="loader-overlay" *ngIf="loading$ | async">
+  <div class="loader"></div>
+</div>
+<div class="error-message" *ngIf="error$ | async as error">
+  {{ error }}
+</div>
