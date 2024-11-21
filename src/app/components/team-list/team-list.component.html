@@ -1,0 +1,29 @@
+<div class="team-list-container">
+  <h2 class="title">Lista de Equipos de la NBA</h2>
+  <div class="team-list">
+    <mat-card *ngFor="let team of displayedTeams" class="team-card">
+      <mat-card-header>
+        <div mat-card-avatar class="team-logo" [ngStyle]="{ 'background-image': 'url(data:image/png;base64,' + team.logo + ')' }"></div>
+        <mat-card-title>{{ team.name }}</mat-card-title>
+        <mat-card-subtitle>{{ team.city }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Ciudad: {{ team.city }}<br />
+          Estadio: {{ team.stadium }}<br />
+          Año de Fundación: {{ team.foundedYear }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button class="details-button" [routerLink]="['/team', team.id]">VER DETALLES</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <mat-paginator
+    [length]="teams.length"
+    [pageSize]="10"
+    [pageSizeOptions]="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>
